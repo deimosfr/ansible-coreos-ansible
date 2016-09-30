@@ -1,0 +1,2 @@
+ansible_ssh_user: core
+ansible_python_interpreter: "/opt/python/bin/python"
