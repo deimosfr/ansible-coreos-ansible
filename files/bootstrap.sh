@@ -11,10 +11,8 @@ fi
 
 PYPY_VERSION=5.1.0
 
-if [[ -e /opt/python/pypy-$PYPY_VERSION-linux64.tar.bz2 ]]; then
-  tar -xjf /opt/python/pypy-$PYPY_VERSION-linux64.tar.bz2
-else
-  wget -O - https://bitbucket.org/pypy/pypy/downloads/pypy-$PYPY_VERSION-linux64.tar.bz2 |tar -xjf -
+if [[ -e /tmp/pypy.tar.bz2 ]]; then
+  tar -xjf /tmp/pypy.tar.bz2 -C /opt/python
 fi
 
 mv -n pypy-$PYPY_VERSION-linux64 pypy
@@ -30,5 +28,6 @@ cat > /opt/python/bin/python <<EOF
 LD_LIBRARY_PATH=/opt/python/pypy/lib:$LD_LIBRARY_PATH exec /opt/python/pypy/bin/pypy "\$@"
 EOF
 
+rm -f /tmp/pypy.tar.bz2
 chmod +x /opt/python/bin/python
-/opt/python/bin/python --version && rm -rf /opt/python/pypy-$PYPY_VERSION-linux64.tar.bz2
+/opt/python/bin/python --version

@@ -5,6 +5,27 @@
   register: need_bootstrap
   ignore_errors: True
 
+- name: check if pypy is locally downloaded
+  raw: "stat {{role_path}}/files/pypy.tar.bz2"
+  register: pypy_downloaded
+  become: false
+  ignore_errors: True
+  delegate_to: 127.0.0.1
+
+- name: download pypy locally
+  get_url:
+    url: 'https://bitbucket.org/pypy/pypy/downloads/pypy-5.1.0-linux64.tar.bz2'
+    dest: "{{role_path}}/files/pypy.tar.bz2"
+  become: false
+  delegate_to: 127.0.0.1
+  when: pypy_downloaded | failed
+
+- name: copy pypy to temporary destination
+  raw: "scp {{role_path}}/files/pypy.tar.bz2 core@{{inventory_hostname}}:/tmp/pypy.tar.bz2"
+  become: false
+  delegate_to: 127.0.0.1
+  when: need_bootstrap | failed
+
 - name: Run bootstrap.sh
   script: bootstrap.sh
   when: need_bootstrap | failed
