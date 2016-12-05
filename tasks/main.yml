@@ -1,5 +1,5 @@
 ---
 
-- include: ansible_prerequisites.yml
+- include: deploy_ansible.yml
   tags: [coreos, coreos-ansible]
 
