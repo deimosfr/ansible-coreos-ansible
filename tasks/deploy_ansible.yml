@@ -7,7 +7,7 @@
   changed_when: false
 
 - name: copy pypy to temporary destination
-  raw: "scp {{role_path}}/files/pypy.tar.bz2 core@{{inventory_hostname}}:/tmp/pypy.tar.bz2"
+  raw: "scp {{coreos_ansible_role_path}}/files/pypy.tar.bz2 core@{{inventory_hostname}}:/tmp/pypy.tar.bz2"
   become: false
   delegate_to: 127.0.0.1
   when: need_bootstrap | failed

@@ -7,6 +7,7 @@ Role Variables
 --------------
 
 ```yaml
+coreos_ansible_role_path: "{{playbook_dir}}"
 ansible_ssh_user: core
 ansible_python_interpreter: "/opt/python/bin/python"
 ```
@@ -34,8 +35,9 @@ coreos-02
 coreos-03
 
 [coreos:vars]
-ansible_ssh_user=core
-ansible_python_interpreter="/opt/python/bin/python"
+coreos_ansible_role_path: "{{playbook_dir}}"
+ansible_ssh_user: core
+ansible_python_interpreter: "/opt/python/bin/python"
 ```
 
 License
