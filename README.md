@@ -8,6 +8,7 @@ Role Variables
 
 ```yaml
 coreos_ansible_role_path: "{{playbook_dir}}"
+coreos_ansible_install_pypy: true
 ansible_ssh_user: core
 ansible_python_interpreter: "/opt/python/bin/python"
 ```

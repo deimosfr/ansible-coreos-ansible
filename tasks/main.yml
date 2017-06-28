@@ -1,4 +1,7 @@
 ---
+- include: ansible_prerequisites.yml
+  when: coreos_ansible_install_pypy
+  tags: [coreos, coreos-ansible]
 
 - include: deploy_ansible.yml
   tags: [coreos, coreos-ansible]
