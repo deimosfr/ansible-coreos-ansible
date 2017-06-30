@@ -1,4 +1,4 @@
-#/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -9,13 +9,11 @@ if [[ -e /opt/python/.bootstrapped ]]; then
   exit 0
 fi
 
-PYPY_VERSION=5.1.0
-
 if [[ -e /tmp/pypy.tar.bz2 ]]; then
   tar -xjf /tmp/pypy.tar.bz2 -C /opt/python
 fi
 
-mv -n pypy-$PYPY_VERSION-linux64 pypy
+mv -n pypy$PYTHON_VERSION-v$PYPY_VERSION-linux64 pypy
 
 ## library fixup
 mkdir -p pypy/lib

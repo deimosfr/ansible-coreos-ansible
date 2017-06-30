@@ -10,7 +10,7 @@
 
 - name: download pypy locally
   get_url:
-    url: 'https://bitbucket.org/pypy/pypy/downloads/pypy-5.1.0-linux64.tar.bz2'
+    url: "https://bitbucket.org/pypy/pypy/downloads/pypy{{ python_version }}-v{{ pypy_version }}-linux64.tar.bz2"
     dest: "{{coreos_ansible_role_path}}/files/pypy.tar.bz2"
   become: false
   delegate_to: 127.0.0.1
