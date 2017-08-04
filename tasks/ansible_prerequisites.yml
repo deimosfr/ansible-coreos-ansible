@@ -14,5 +14,6 @@
     dest: "{{coreos_ansible_role_path}}/files/pypy.tar.bz2"
   become: false
   delegate_to: 127.0.0.1
+  vars:
+    ansible_python_interpreter: "{{ansible_python_interpreter_local}}"
   when: pypy_downloaded | failed
-
