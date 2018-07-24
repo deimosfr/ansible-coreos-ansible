@@ -1,5 +1,9 @@
 ---
 
+- name: Set inventory ansible_port to default
+  set_fact:
+    ansible_port: "{{coreos_openssh_port_override | default(coreos_openssh_port)}}"
+
 - name: Check if bootstrap is needed
   raw: stat /opt/python/.bootstrapped
   register: need_bootstrap
@@ -7,40 +11,40 @@
   changed_when: false
 
 - name: copy pypy to temporary destination
-  raw: "scp {{coreos_ansible_role_path}}/files/pypy.tar.bz2 {{ansible_ssh_user}}@{{inventory_hostname}}:/tmp/pypy.tar.bz2"
+  raw: "scp -P {{ansible_port}} {{coreos_ansible_role_path}}/files/pypy.tar.bz2 {{ansible_ssh_user}}@{{inventory_hostname}}:/tmp/pypy.tar.bz2"
   become: false
   delegate_to: 127.0.0.1
-  when: need_bootstrap | failed
+  when: need_bootstrap is failed
 
 - name: Run bootstrap.sh
   script: bootstrap.sh
   environment:
     PYTHON_VERSION: "{{ python_version }}"
     PYPY_VERSION: "{{ pypy_version }}"
-  when: need_bootstrap | failed
+  when: need_bootstrap is failed
 
 - name: Check if we need to install pip
   shell: "{{ansible_python_interpreter}} -m pip --version"
   register: need_pip
   ignore_errors: True
   changed_when: false
-  when: need_bootstrap | failed
+  when: need_bootstrap is failed
 
 - name: Copy get-pip.py
   copy: src=get-pip.py dest=~/get-pip.py
-  when: need_pip | failed
+  when: need_pip is failed
 
 - name: Install pip
   shell: "{{ansible_python_interpreter}} ~/get-pip.py"
-  when: need_pip | failed
+  when: need_pip is failed
 
 - name: Remove get-pip.py
   file: path=~/get-pip.py state=absent
-  when: need_pip | failed
+  when: need_pip is failed
 
 - name: Install pip launcher
   copy: src=runner dest=/opt/python/bin/pip mode=0755
-  when: need_pip | failed
+  when: need_pip is failed
 
 - name: Set bootstrapped file
   file:

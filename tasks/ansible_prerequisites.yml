@@ -16,4 +16,4 @@
   delegate_to: 127.0.0.1
   vars:
     ansible_python_interpreter: "{{ansible_python_interpreter_local}}"
-  when: pypy_downloaded | failed
+  when: pypy_downloaded is failed
